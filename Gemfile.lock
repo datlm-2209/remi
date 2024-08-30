@@ -121,6 +121,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.7.2)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     jwt (2.8.2)
       base64
     language_server-protocol (3.17.0.3)
@@ -149,6 +151,16 @@ GEM
       net-protocol
     nio4r (2.7.3)
     nokogiri (1.16.7-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.26.3)
@@ -270,7 +282,7 @@ GEM
     spring (4.2.1)
     stringio (3.1.1)
     strscan (3.1.0)
-    thor (1.3.1)
+    thor (1.3.2)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -293,14 +305,20 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  aarch64-linux-musl
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
   brakeman
   byebug
+  devise
   devise-jwt
   factory_bot_rails
+  jsonapi-serializer
   pg (~> 1.5, >= 1.5.7)
   pry
   pry-rails
