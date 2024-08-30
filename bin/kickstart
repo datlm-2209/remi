@@ -1,0 +1,12 @@
+#!/bin/bash
+# Use this script to start rails application
+
+set -e
+
+bundle check || bundle install
+bundle exec rails db:prepare
+echo "prepare AAAAA"
+rm -f /tmp/d-app.pid
+bundle exec rails s -p 3000 -P /tmp/d-app.pid -b '0.0.0.0'
+
+exec "$@"
