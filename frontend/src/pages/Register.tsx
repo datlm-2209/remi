@@ -1,16 +1,44 @@
+import { z } from "zod";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export function Register() {
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import useAuthStore from "@/stores/authStore";
+
+const registerSchema = z.object({
+  name: z.string().min(1, { message: "First name is required" }),
+  email: z.string()
+    .min(1, { message: "Email is required" })
+    .email("Invalid email address"),
+  password: z.string()
+    .min(1, { message: "Password is required" })
+    .min(6, "Password must be at least 6 characters long"),
+});
+
+type registerFormValues = z.infer<typeof registerSchema>;
+
+function Register() {
+  const { error, register } = useAuthStore();
+
+  const form = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: registerFormValues) => {
+    console.log("Form data", data);
+    await register(data)
+    // Handle registration logic here
+  };
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -20,34 +48,53 @@ export function Register() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
-              <Input id="first-name" placeholder="Max" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
-              <Input id="last-name" placeholder="Robinson" required />
-            </div>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="example@example.com"
-              required
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="first-name">First name</FormLabel>
+                  <FormControl>
+                    <Input id="first-name" placeholder="Max" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
-          </div>
-          <Button type="submit" className="w-full">
-            Create an account
-          </Button>
-        </div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <FormControl>
+                    <Input id="email" placeholder="example@example.com" type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormControl>
+                    <Input id="password" placeholder="Password" type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {error ? <div className="text-sm font-medium text-destructive w-full ">{error}</div> : null}
+            <Button type="submit" className="w-full">
+              Create an account
+            </Button>
+          </form>
+        </Form>
         <div className="mt-4 text-center text-sm">
           Already have an account?{" "}
           <Link to="/login" className="underline">
@@ -55,8 +102,8 @@ export function Register() {
           </Link>
         </div>
       </CardContent>
-    </Card>
-  )
+    </Card >
+  );
 }
 
-export default Register
+export default Register;
