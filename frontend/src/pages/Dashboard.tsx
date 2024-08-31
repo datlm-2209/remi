@@ -1,4 +1,5 @@
 // import { Button } from "@/components/ui/button"
+import ShareDialog from "@/components/ShareDialog";
 import {
   Card,
   CardContent,
@@ -9,9 +10,13 @@ import {
 function Dashboard() {
   return (
     <div className="grid gap-6">
-      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-        The King's Plan
-      </h2>
+      <div className="flex justify-between pb-2 border-b">
+        <h2 className="mt-10 scroll-m-20 text-3xl font-semibold transition-colors first:mt-0">
+          Videos
+        </h2>
+        <ShareDialog />
+      </div>
+
       <Card x-chunk="dashboard-04-chunk-1">
         <CardContent className="flex flex-col md:flex-row items-start gap-6 pt-6">
           <div className="w-full md:w-2/3">
@@ -19,7 +24,6 @@ function Dashboard() {
               className="w-full aspect-video rounded"
               src="https://www.youtube.com/embed/CrtoyB2fcMI?si=uhpKc2mr45g9QE4v"
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
@@ -46,26 +50,6 @@ function Dashboard() {
             </blockquote>
           </div>
         </CardContent>
-
-        {/* Footer */}
-        {/* <CardFooter className="border-t px-6 py-4">
-          <Button
-            variant="link"
-            size="icon"
-            className="mr-2"
-          >
-            <ArrowUp className="h-5 w-5 mr-2" />12
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-          <Button
-            variant="link"
-            size="icon"
-            className="mr-2"
-          >
-            <ArrowDown className="h-5 w-5 mr-2" />1
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </CardFooter> */}
       </Card>
       <Card x-chunk="dashboard-04-chunk-1">
         <CardContent className="flex flex-col md:flex-row items-start gap-6 pt-6">

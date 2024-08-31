@@ -1,12 +1,13 @@
-import api from './baseService';
+import { AuthPath } from '@/utils/path';
 import { AxiosResponse } from 'axios';
+import api from './baseService';
 
-interface LoginData {
+export interface LoginData {
   email: string;
   password: string;
 }
 
-interface RegisterData {
+export interface RegisterData {
   email: string;
   password: string;
   name: string;
@@ -15,25 +16,25 @@ interface RegisterData {
 
 export class AuthService {
   async login(data: LoginData): Promise<AxiosResponse> {
-    try {
-      const response = await api.post('/auth/login', data);
-      this.setToken(response.data.token);
-      return response;
-    } catch (error) {
-      console.error(error);
-      throw error;
+    const response = await api.post(AuthPath.LOGIN, { user: data });
+
+    const token = this.extractToken(response.headers.authorization);
+    if (token) {
+      this.setCurrentUser(token, response.data.data.user.email, response.data.data.user.name);
     }
+
+    return response;
   }
 
   async register(data: RegisterData): Promise<AxiosResponse> {
-    try {
-      const response = await api.post('/auth/register', data);
-      this.setToken(response.data.token);
-      return response;
-    } catch (error) {
-      console.error(error);
-      throw error;
+    const response = await api.post(AuthPath.REGISTER, { user: data });
+
+    const token = this.extractToken(response.headers.authorization);
+    if (token) {
+      this.setCurrentUser(token, response.data.data.user.email, response.data.data.user.name);
     }
+
+    return response;
   }
 
   async logout(): Promise<void> {
@@ -46,8 +47,11 @@ export class AuthService {
     }
   }
 
-  setToken(token: string): void {
+  setCurrentUser(token: string, email: string, name: string): void {
     localStorage.setItem('token', token);
+    localStorage.setItem('email', email);
+    localStorage.setItem('name', name);
+    localStorage.setItem('loggedIn', 'true')
   }
 
   clearToken(): void {
@@ -61,4 +65,11 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+
+  extractToken(authHeader: string | undefined): string | null {
+    if (authHeader) {
+      return authHeader.replace('Bearer ', '');
+    }
+    return null;
+  };
 }
