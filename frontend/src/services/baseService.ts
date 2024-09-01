@@ -22,7 +22,7 @@ api.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = localStorage.getItem('token');
     if (token && config.headers) {
-      config.headers["X-Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -37,6 +37,11 @@ api.interceptors.response.use(
     return response;
   },
   (error: AxiosError): Promise<AxiosError> => {
+    const currentPath = new URL(window.location.href).pathname
+    if (error.response && error.response.status === 401 && currentPath !== '/login') {
+      localStorage.clear();
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );

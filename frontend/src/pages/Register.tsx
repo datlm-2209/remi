@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import useAuthStore from "@/stores/authStore";
 
 const registerSchema = z.object({
-  name: z.string().min(1, { message: "First name is required" }),
+  username: z.string().min(1, { message: "Username is required" }),
   email: z.string()
     .min(1, { message: "Email is required" })
     .email("Invalid email address"),
@@ -27,16 +27,14 @@ function Register() {
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       password: "",
     },
   });
 
   const onSubmit = async (data: registerFormValues) => {
-    console.log("Form data", data);
     await register(data)
-    // Handle registration logic here
   };
 
   return (
@@ -52,12 +50,12 @@ function Register() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
             <FormField
               control={form.control}
-              name="name"
+              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="first-name">First name</FormLabel>
+                  <FormLabel htmlFor="username">Username</FormLabel>
                   <FormControl>
-                    <Input id="first-name" placeholder="Max" {...field} />
+                    <Input id="username" placeholder="Max" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
