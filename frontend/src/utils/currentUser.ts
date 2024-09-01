@@ -1,8 +1,8 @@
 export const isAuthenticated = () => {
-  return localStorage.getItem('loggedIn') === 'true'
+  return localStorage.getItem('isAuthenticated') === 'true'
 }
 
 export const currentUser = {
   email: localStorage.getItem('email'),
-  name: localStorage.getItem('name')
+  username: localStorage.getItem('username')
 }

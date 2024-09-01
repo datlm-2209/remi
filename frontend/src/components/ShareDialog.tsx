@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "./ui/form";
+import useVideoStore from "@/stores/videoStore";
+import { useState } from "react";
 
 const shareVideoSchema = z.object({
   url: z.string().url().min(1),
@@ -21,19 +23,26 @@ const shareVideoSchema = z.object({
 type shareVideoFormValues = z.infer<typeof shareVideoSchema>
 
 function ShareDialog() {
+  const [open, setOpen] = useState(false);
+  const { createVideo, fetchVideos, error } = useVideoStore()
   const form = useForm<z.infer<typeof shareVideoSchema>>({
     resolver: zodResolver(shareVideoSchema),
     defaultValues: {
-      url: "",
+      url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     },
   })
 
   const onSubmit = async (data: shareVideoFormValues) => {
-    console.log(data);
+    await createVideo(data)
+
+    if (!error) {
+      setOpen(false)
+      await fetchVideos()
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button >Share new video</Button>
       </DialogTrigger>
@@ -63,6 +72,7 @@ function ShareDialog() {
                   </FormItem>
                 )}
               />
+              {error ? <p className="text-sm font-medium text-destructive max-w-full">{error}</p> : null}
               <DialogFooter className="mt-6">
                 <Button type="submit" >Share</Button>
               </DialogFooter>

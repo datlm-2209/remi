@@ -34,9 +34,7 @@ class Users::SessionsController < Devise::SessionsController
         code: 200,
         message: "Logged in successfully."
       },
-      data: {
-        user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
-      }
+      user: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
     }, status: :ok
   end
 

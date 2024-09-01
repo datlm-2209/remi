@@ -1,4 +1,4 @@
-import { AuthPath } from '@/utils/path';
+import { AUTH_PATH } from '@/utils/path';
 import { AxiosResponse } from 'axios';
 import api from './baseService';
 
@@ -10,28 +10,28 @@ export interface LoginData {
 export interface RegisterData {
   email: string;
   password: string;
-  name: string;
+  username: string;
   [key: string]: unknown;
 }
 
 export class AuthService {
   async login(data: LoginData): Promise<AxiosResponse> {
-    const response = await api.post(AuthPath.LOGIN, { user: data });
+    const response = await api.post(AUTH_PATH.LOGIN, { user: data });
 
     const token = this.extractToken(response.headers.authorization);
     if (token) {
-      this.setCurrentUser(token, response.data.data.user.email, response.data.data.user.name);
+      this.setCurrentUser(token, response.data.user.email, response.data.user.username);
     }
 
     return response;
   }
 
   async register(data: RegisterData): Promise<AxiosResponse> {
-    const response = await api.post(AuthPath.REGISTER, { user: data });
+    const response = await api.post(AUTH_PATH.REGISTER, { user: data });
 
     const token = this.extractToken(response.headers.authorization);
     if (token) {
-      this.setCurrentUser(token, response.data.data.user.email, response.data.data.user.name);
+      this.setCurrentUser(token, response.data.user.email, response.data.user.username);
     }
 
     return response;
@@ -39,23 +39,23 @@ export class AuthService {
 
   async logout(): Promise<void> {
     try {
-      await api.post('/auth/logout');
-      this.clearToken();
+      await api.delete(AUTH_PATH.LOGOUT);
+      this.clearStorage();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  setCurrentUser(token: string, email: string, name: string): void {
+  setCurrentUser(token: string, email: string, username: string): void {
     localStorage.setItem('token', token);
     localStorage.setItem('email', email);
-    localStorage.setItem('name', name);
-    localStorage.setItem('loggedIn', 'true')
+    localStorage.setItem('username', username);
+    localStorage.setItem('isAuthenticated', 'true')
   }
 
-  clearToken(): void {
-    localStorage.removeItem('token');
+  clearStorage(): void {
+    localStorage.clear();
   }
 
   getToken(): string | null {

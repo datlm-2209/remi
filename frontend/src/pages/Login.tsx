@@ -21,7 +21,8 @@ function Login() {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      email: "x@x.com",
+      password: "12345678",
     },
   })
 
@@ -66,11 +67,10 @@ function Login() {
                 </FormItem>
               )}
             />
-
+            {error ? <p className="text-sm font-medium text-destructive max-w-full">{error}</p> : null}
             <Button type="submit" className="w-full">
               Login
             </Button>
-            {error ? <p className="text-sm font-medium text-destructive max-w-full">{error}</p> : null}
           </form>
         </Form>
 

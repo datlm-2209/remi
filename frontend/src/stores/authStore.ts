@@ -20,7 +20,7 @@ const useAuthStore = create<AuthState>((set) => ({
   login: async (data: LoginData) => {
     try {
       const response = await authService.login(data);
-      set({ isAuthenticated: true, user: response.data.user });
+      set({ isAuthenticated: true, user: response.data.user, error: null  });
       window.location.href = '/'
     } catch(error) {
       if (error instanceof AxiosError && error.response) {
@@ -34,7 +34,8 @@ const useAuthStore = create<AuthState>((set) => ({
   register: async (data: RegisterData) => {
     try {
       const response = await authService.register(data);
-      set({ isAuthenticated: true, user: response.data.user });
+      set({ isAuthenticated: true, user: response.data.user, error: null });
+      window.location.href = '/'
     } catch(error) {
       if (error instanceof AxiosError && error.response) {
         set({ error: error.response.data.status.message || "Unexpected error occurred!"});
@@ -48,6 +49,7 @@ const useAuthStore = create<AuthState>((set) => ({
     try {
       await authService.logout();
       set({ isAuthenticated: false, user: null });
+      window.location.href = '/'
     } catch (error) {
       console.error('Logout failed:', error);
       throw error;
