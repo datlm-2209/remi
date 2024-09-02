@@ -5,12 +5,13 @@ import { CreateVideoData } from '@/services/videoService';
 import { Video } from '@/types/video';
 import { User } from '@/types/user';
 
-interface AuthState {
+interface VideoState {
   videos: Video[];
   video: Video | null;
   error: string | null;
   fetchVideos: () => Promise<void>;
   createVideo: (data: CreateVideoData) => Promise<void>;
+  clearError: () => void;
 }
 
 interface VideoData {
@@ -34,7 +35,7 @@ interface VideoData {
   }[];
 }
 
-const useVideoStore = create<AuthState>((set) => ({
+const useVideoStore = create<VideoState>((set) => ({
   videos: [],
   video: null,
   error: null,
@@ -55,11 +56,12 @@ const useVideoStore = create<AuthState>((set) => ({
   createVideo: async (data: CreateVideoData) => {
     try {
       await videoService.createVideo(data);
+      set({  error: null  });
     } catch(error) {
       if (error instanceof AxiosError && error.response) {
-        set({ error: error.response.data});
+        set({ error: error.response.data.errors });
       } else {
-        set({error: "Create Video Failed!"});
+        set({ error: "Create Video Failed!" });
       }
     }
   },
