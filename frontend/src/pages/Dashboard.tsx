@@ -10,8 +10,6 @@ function Dashboard() {
     fetchVideos();
   }, [fetchVideos]);
 
-  console.log('videos :>> ', videos);
-  // MOCK
 
   return (
     < div className="grid gap-6" >

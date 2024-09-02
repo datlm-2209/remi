@@ -26,7 +26,7 @@ class ExtractVideoInfoService
       url: url,
       title: video.title,
       description: video.description,
-      embed_url: video.embed_url,
+      embed_url: video.embed_url
     }
   end
 end

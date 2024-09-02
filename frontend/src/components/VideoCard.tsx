@@ -26,7 +26,6 @@ function VideoCard({ video }: Props) {
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
-  console.log(video);
 
   return (
     <Card x-chunk={`dashboard-04-chunk-${video.id}`}>
