@@ -9,8 +9,10 @@ gem "rack-cors"
 gem "devise-jwt"
 gem "devise"
 gem "jsonapi-serializer"
-gem 'video_info', '~> 4.2'
+gem "video_info", "~> 4.2"
 # gem 'kaminari'
+gem "redis"
+gem "rubocop", "~> 1.66", require: false
 
 group :development, :test do
   gem "byebug", platforms: [ :mri, :mingw, :x64_mingw ]
