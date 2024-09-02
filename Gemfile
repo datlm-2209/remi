@@ -15,10 +15,12 @@ gem "redis"
 gem "rubocop", "~> 1.66", require: false
 
 group :development, :test do
-  gem "byebug", platforms: [ :mri, :mingw, :x64_mingw ]
+  gem "byebug", platforms: %i[mri mingw x64_mingw ]
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "shoulda-matchers"
+  gem "faker"
 end
 
 group :development do

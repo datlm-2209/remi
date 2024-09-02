@@ -24,7 +24,7 @@ type shareVideoFormValues = z.infer<typeof shareVideoSchema>
 
 function ShareDialog() {
   const [open, setOpen] = useState(false);
-  const { createVideo, fetchVideos, error } = useVideoStore()
+  const { createVideo, error, clearError } = useVideoStore()
   const form = useForm<z.infer<typeof shareVideoSchema>>({
     resolver: zodResolver(shareVideoSchema),
     defaultValues: {
@@ -34,15 +34,23 @@ function ShareDialog() {
 
   const onSubmit = async (data: shareVideoFormValues) => {
     await createVideo(data)
+    const { error } = useVideoStore.getState();
 
     if (!error) {
       setOpen(false)
-      await fetchVideos()
+      form.reset()
     }
   };
 
+  const handleOpenDialog = () => {
+    if (open) {
+      clearError()
+    }
+    setOpen(!open)
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenDialog}>
       <DialogTrigger asChild>
         <Button >Share new video</Button>
       </DialogTrigger>
@@ -72,7 +80,7 @@ function ShareDialog() {
                   </FormItem>
                 )}
               />
-              {error ? <p className="text-sm font-medium text-destructive max-w-full">{error}</p> : null}
+              {error ? <p className="mt-2 text-sm font-medium text-destructive max-w-full">{error}</p> : ''}
               <DialogFooter className="mt-6">
                 <Button type="submit" >Share</Button>
               </DialogFooter>
