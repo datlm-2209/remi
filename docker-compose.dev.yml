@@ -1,17 +1,6 @@
 version: '3.9'
 
 services:
-  db:
-    image: postgres:16.4-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: remi_development
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: supersecret
-    ports:
-      - "5432:5432"
-
   redis:
     image: redis:7.4.0
     ports:
@@ -29,16 +18,10 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
       - redis
-    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
     tty: true
     stdin_open: true
-    environment:
-      DB_HOST: db
-      DB_NAME: remi_development
-      DB_USERNAME: root
-      DB_PASSWORD: supersecret
+    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
 
   frontend:
     build:
@@ -53,7 +36,6 @@ services:
       - api
 
 volumes:
-  postgres_data:
   node_modules:
   cache:
   bundle:

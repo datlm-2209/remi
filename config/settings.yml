@@ -1,0 +1,13 @@
+paginate:
+  per_page: 10
+
+validate:
+  video:
+  user:
+    email:
+      max_length: 64
+    username:
+      max_length: 64
+    password:
+      max_length: 64
+      min_length: 8
