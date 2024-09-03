@@ -39,3 +39,5 @@ group :test do
   gem 'webdrivers'
   gem 'database_cleaner-active_record'
 end
+
+gem "dockerfile-rails", ">= 1.6", :group => :development

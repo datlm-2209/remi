@@ -24,11 +24,11 @@ type shareVideoFormValues = z.infer<typeof shareVideoSchema>
 
 function ShareDialog() {
   const [open, setOpen] = useState(false);
-  const { createVideo, error, clearError } = useVideoStore()
+  const { createVideo, fetchVideos, error, clearError } = useVideoStore()
   const form = useForm<z.infer<typeof shareVideoSchema>>({
     resolver: zodResolver(shareVideoSchema),
     defaultValues: {
-      url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      url: ""
     },
   })
 
@@ -39,6 +39,7 @@ function ShareDialog() {
     if (!error) {
       setOpen(false)
       form.reset()
+      await fetchVideos()
     }
   };
 
