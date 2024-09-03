@@ -11,7 +11,8 @@ export interface Payload {
 
 const useActionCable = (channelName: string, onReceived: (data: Payload) => void) => {
   useEffect(() => {
-    const cable = createConsumer(`ws://localhost:3000/cable?token=${currentUser.token}`);
+    const wsUrl = import.meta.env.VITE_WS_URL
+    const cable = createConsumer(`${wsUrl}?token=${currentUser.token}`);
     const channel = cable.subscriptions.create(channelName, {
       received(data: Payload) {
         onReceived(data);

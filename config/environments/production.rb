@@ -33,10 +33,9 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
-
+  config.action_cable.mount_path = nil
+  config.action_cable.url = "wss://remi-app.fly.dev/cable"
+  config.action_cable.allowed_request_origins = ["https://remi-frontend.fly.dev"]
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
   # config.assume_ssl = true

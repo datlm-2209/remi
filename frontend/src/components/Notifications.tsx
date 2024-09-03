@@ -8,6 +8,7 @@ import {
 import useActionCable, { Payload } from "@/hooks/useActionCable";
 import { useEffect, useState } from "react";
 import useVideoStore from "@/stores/videoStore";
+import { currentUser } from "@/utils/currentUser";
 
 export function Notifications() {
   const [notifications, setNotifications] = useState<Payload[]>([]);
@@ -16,6 +17,8 @@ export function Notifications() {
 
   useActionCable('NotificationsChannel', (payload: Payload) => {
     setNotifications(prevNotifications => {
+      if (payload.sender == currentUser.username) return [...prevNotifications]
+
       const newNotification: Payload = {
         type: payload.type,
         sender: payload.sender,
