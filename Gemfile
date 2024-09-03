@@ -1,7 +1,8 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 7.2.1"
-gem "pg", "~> 1.5", ">= 1.5.7"
+# gem "pg", "~> 1.5", ">= 1.5.7"
+gem "sqlite3"
 gem "puma", ">= 5.0"
 gem "tzinfo-data"
 gem "bootsnap", require: false
@@ -12,21 +13,29 @@ gem "jsonapi-serializer"
 gem "video_info", "~> 4.2"
 # gem 'kaminari'
 gem "redis"
-gem "rubocop", "~> 1.66", require: false
+gem "config"
 
 group :development, :test do
+  gem "rubocop", "~> 1.66", require: false
   gem "byebug", platforms: %i[mri mingw x64_mingw ]
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "shoulda-matchers"
   gem "faker"
+  gem "pry"
+  gem "pry-rails"
 end
 
 group :development do
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
   gem "spring"
-  gem "pry"
-  gem "pry-rails"
+end
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver', require: false
+  gem 'webdrivers'
+  gem 'database_cleaner-active_record'
 end

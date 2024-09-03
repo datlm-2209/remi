@@ -6,9 +6,17 @@ class User < ApplicationRecord
 
   has_many :videos
 
-  validates :username, presence: true, length: { maximum: 64 }
-  validates :email, presence: true, length: { maximum: 64 }
-  validates :password, presence: true, length: { minimum: 8 }
-
   before_save { self.email = email.downcase }
+
+  validates :email, presence: true, length: {
+    maximum: Settings.validate.user.email.max_length
+  }
+  validates :username, presence: true, length: {
+    maximum: Settings.validate.user.username.max_length
+   }
+  validates :password, presence: true,
+    length: {
+      minimum: Settings.validate.user.password.min_length,
+      maximum: Settings.validate.user.password.max_length
+    }
 end

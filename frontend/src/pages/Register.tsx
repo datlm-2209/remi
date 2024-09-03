@@ -10,13 +10,14 @@ import { Input } from "@/components/ui/input";
 import useAuthStore from "@/stores/authStore";
 
 const registerSchema = z.object({
-  username: z.string().min(1, { message: "Username is required" }),
+  username: z.string().min(1, { message: "Username is required" }).max(64),
   email: z.string()
     .min(1, { message: "Email is required" })
     .email("Invalid email address"),
   password: z.string()
     .min(1, { message: "Password is required" })
-    .min(6, "Password must be at least 6 characters long"),
+    .min(8, "Password must be at least 8 characters long"),
+
 });
 
 type registerFormValues = z.infer<typeof registerSchema>;

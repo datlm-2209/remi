@@ -47,7 +47,7 @@ function Header() {
                 <Link to="/login">Login</Link>
               </Button>
               <Button asChild>
-                <Link to="/login">Become a member</Link>
+                <Link to="/register">Become a member</Link>
               </Button>
             </>
           )
