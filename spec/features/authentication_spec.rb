@@ -1,35 +1,48 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.feature "Authentication", type: :feature, js: true do
-#   scenario "Visitor signs up for a new account" do
-#     visit("/register")
+RSpec.feature "Authentication", type: :feature, js: true do
+    before do
+    @user = FactoryBot.create(:user,
+      email: "test@test.com",
+      password: "password"
+    )
+    @new_user = FactoryBot.create(:user,
+      username: Faker::Internet.username(specifier: 5..10),
+      email: Faker::Internet.email,
+      password: 'password')
+  end
 
-#     fill_in "username", with: "test"
-#     fill_in "email", with: "test@test.com"
-#     fill_in "password", with: "password"
-#     click_button "Create an account"
+  scenario "Visitor signs up for a new account" do
+    visit("/register")
 
-#     expect(page).to have_selector(".wrapper-user-infor")
-#   end
+    fill_in "username", with: @new_user.username
+    fill_in "email", with: @new_user.email
+    fill_in "password", with: @new_user.password
+    click_button "Create an account"
 
-#   scenario "Visitor perform login to existed account" do
-#     visit("/login")
+    expect(page).to have_selector("#current-user")
+  end
 
-#     fill_in "email", with: "test@test.com"
-#     fill_in "password", with: "password"
-#     click_button "Login"
+  scenario "Visitor perform login to existed account" do
+    visit("/login")
 
-#     expect(page).to have_css("div.wrapper-user-infor")
-#   end
+    fill_in "email", with: @user.email
+    fill_in "password", with: @user.password
+    click_button "Login"
 
-#   # scenario "Logged in user perform sign out" do
-#   #   visit("/login")
+    expect(page).to have_selector("#current-user")
+  end
 
-#   #   fill_in "user_email", with: "test@test.com"
-#   #   fill_in "user_password", with: "123456"
-#   #   click_button "Login"
+  scenario "Logged in user perform sign out" do
+    visit("/login")
 
-#   #   click_button "Logout"
-#   #   expect(page).to have_link("Sign in")
-#   # end
-# end
+    fill_in "email", with: @user.email
+    fill_in "password", with: @user.password
+    click_button "Login"
+
+    click_button(id: 'radix-:r2:')
+    find('#logout-btn').click
+
+    expect(page).to have_link("Login")
+  end
+end

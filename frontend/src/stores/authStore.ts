@@ -7,6 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   user: Record<string, unknown> | null;
   error: string | null;
+  registrationError: string | null;
   login: (data: LoginData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
@@ -16,6 +17,7 @@ const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   user: null,
   error: null,
+  registrationError: null,
 
   login: async (data: LoginData) => {
     try {
@@ -34,13 +36,13 @@ const useAuthStore = create<AuthState>((set) => ({
   register: async (data: RegisterData) => {
     try {
       const response = await authService.register(data);
-      set({ isAuthenticated: true, user: response.data.user, error: null });
+      set({ isAuthenticated: true, user: response.data.user, registrationError: null });
       window.location.href = '/'
     } catch(error) {
       if (error instanceof AxiosError && error.response) {
-        set({ error: error.response.data.status.message || "Unexpected error occurred!"});
+        set({ registrationError: error.response.data.status.message || "Unexpected error occurred!"});
       } else {
-        set({error: "Registration Failed!"})
+        set({ registrationError: "Registration Failed!"})
       }
     }
   },

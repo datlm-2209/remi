@@ -23,7 +23,7 @@ const registerSchema = z.object({
 type registerFormValues = z.infer<typeof registerSchema>;
 
 function Register() {
-  const { error, register } = useAuthStore();
+  const { registrationError, register } = useAuthStore();
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -56,7 +56,7 @@ function Register() {
                 <FormItem>
                   <FormLabel htmlFor="username">Username</FormLabel>
                   <FormControl>
-                    <Input id="username" placeholder="Max" {...field} />
+                    <Input id="username" placeholder="Username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -69,7 +69,7 @@ function Register() {
                 <FormItem>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <FormControl>
-                    <Input id="email" placeholder="example@example.com" type="email" {...field} />
+                    <Input id="email" placeholder="Email" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -88,7 +88,7 @@ function Register() {
                 </FormItem>
               )}
             />
-            {error ? <div className="text-sm font-medium text-destructive w-full ">{error}</div> : null}
+            {registrationError ? <div className="text-sm font-medium text-destructive w-full ">{registrationError}</div> : null}
             <Button type="submit" className="w-full">
               Create an account
             </Button>

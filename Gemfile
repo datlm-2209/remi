@@ -35,8 +35,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'selenium-webdriver', require: false
-  gem 'webdrivers'
+  gem 'selenium-webdriver'
+  gem "webdrivers", "~> 5.3"
   gem 'database_cleaner-active_record'
 end
 
