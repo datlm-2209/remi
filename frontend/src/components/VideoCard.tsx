@@ -1,20 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent } from "./ui/card";
-
-interface Video {
-  id: string | number;
-  url: string;
-  embedUrl: string;
-  title: string;
-  description: string;
-  user: User
-}
-
-interface User {
-  id: string | number;
-  email: string;
-  username: string
-}
+import { Video } from "@/types/video";
 
 type Props = {
   video: Video;
@@ -28,7 +14,7 @@ function VideoCard({ video }: Props) {
   };
 
   return (
-    <Card x-chunk={`dashboard-04-chunk-${video.id}`}>
+    <Card id={`dashboard-chunk-${video.id}`} x-chunk={`dashboard-chunk-${video.id}`}>
       <CardContent className="flex flex-col md:flex-row items-start gap-6 pt-6">
         <div className="w-full md:w-2/3">
           <iframe

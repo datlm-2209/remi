@@ -3,6 +3,9 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require_relative 'support/factory_bot'
+require 'selenium/webdriver'
+require 'capybara/rspec'
+
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
@@ -73,4 +76,24 @@ RSpec.configure do |config|
   end
 
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  Capybara.app_host = "http://localhost:8080"
+  Capybara.default_max_wait_time = 5
+
+  config.before(:suite) do
+    options = Selenium::WebDriver::Chrome::Options.new(
+      args: %w[--headless --no-sandbox --disable-gpu],
+      binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil),
+    )
+
+    Capybara.register_driver :headless do |app|
+      Capybara::Selenium::Driver.new(
+        app,
+        browser: :chrome,
+        options: options
+      )
+    end
+
+    Capybara.javascript_driver = :selenium_chrome
+  end
 end

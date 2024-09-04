@@ -412,7 +412,7 @@ DEPENDENCIES
   sqlite3
   tzinfo-data
   video_info (~> 4.2)
-  webdrivers
+  webdrivers (~> 5.3)
 
 BUNDLED WITH
    2.5.11

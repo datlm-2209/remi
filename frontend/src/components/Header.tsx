@@ -22,7 +22,7 @@ function Header() {
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <HeaderNav />
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <div className="ml-auto sm:flex-initial">
+        <div className="ml-auto sm:flex-initial" id="current-user">
           {isAuthenticated() && currentUser.username}
         </div>
         {isAuthenticated() ?
@@ -36,7 +36,7 @@ function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                  <DropdownMenuItem id="logout-btn" onClick={handleLogout}>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
