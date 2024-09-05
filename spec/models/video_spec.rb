@@ -41,7 +41,7 @@ RSpec.describe Video, type: :model do
   describe "callbacks" do
     context 'after_create callback' do
       let(:user) { create(:user, username: "test_user") }
-      let(:video) { build(:video, user: user, title: "Test Video") }
+      let(:video) { build(:video, user: user, title: "Rick Astley - Never Gonna Give You Up (Official Music Video)") }
 
       it 'should calls BroadcastNotificationService with correct parameters' do
         expected_payload = {

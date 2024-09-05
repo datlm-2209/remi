@@ -59,7 +59,7 @@ RSpec.describe VideosController, type: :controller do
         it 'should return an error response' do
           post :create, params: invalid_video_params
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(JSON.parse(response.body)["errors"]).to eq("Video not found or unavailable.")
+          expect(JSON.parse(response.body)["errors"]).to include("Video not found or unavailable.")
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe VideosController, type: :controller do
         it 'should return an error response' do
           post :create, params: { video: invalid_video_params }
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(JSON.parse(response.body)["errors"]).to eq("Video URL is required.")
+          expect(JSON.parse(response.body)["errors"]).to include("Url can't be blank")
         end
       end
 
@@ -101,7 +101,7 @@ RSpec.describe VideosController, type: :controller do
         it 'should return an error response' do
           post :create, params: { video: invalid_video_params }
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(JSON.parse(response.body)["errors"]).to eq("Video URL is required.")
+          expect(JSON.parse(response.body)["errors"]).to include("Url can't be blank")
         end
       end
     end

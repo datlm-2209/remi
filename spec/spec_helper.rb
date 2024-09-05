@@ -100,7 +100,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.around :each, type: lambda{|rtype| rtype != :feature} do |example|
+  config.around :each, type: lambda { |rtype| rtype != :feature } do |example|
     DatabaseCleaner.cleaning do
       example.run
     end

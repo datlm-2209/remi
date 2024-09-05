@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 7.2.1"
-# gem "pg", "~> 1.5", ">= 1.5.7"
 gem "sqlite3"
 gem "puma", ">= 5.0"
 gem "tzinfo-data"
@@ -11,7 +10,6 @@ gem "devise-jwt"
 gem "devise"
 gem "jsonapi-serializer"
 gem "video_info", "~> 4.2"
-# gem 'kaminari'
 gem "redis"
 gem "config"
 
@@ -34,10 +32,10 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
-  gem 'selenium-webdriver'
+  gem "capybara"
+  gem "selenium-webdriver"
   gem "webdrivers", "~> 5.3"
-  gem 'database_cleaner-active_record'
+  gem "database_cleaner-active_record"
 end
 
-gem "dockerfile-rails", ">= 1.6", :group => :development
+gem "dockerfile-rails", ">= 1.6", group: :development

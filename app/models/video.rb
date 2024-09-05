@@ -1,6 +1,7 @@
 class Video < ApplicationRecord
   CREATE_PARAMS = %i[url]
 
+  before_create :extract_video_info
   after_create :broadcast_notification
 
   belongs_to :user
@@ -17,5 +18,20 @@ class Video < ApplicationRecord
         title: title
       }
     ).execute
+  end
+
+  def extract_video_info
+    return if url.blank?
+
+    video_info = ExtractVideoInfoService.new(url).execute
+
+    if video_info.blank?
+      errors.add(:base, "Video not found or unavailable.")
+      throw(:abort)
+    else
+      self.title = video_info[:title]
+      self.description = video_info[:description]
+      self.embed_url = video_info[:embed_url]
+    end
   end
 end
