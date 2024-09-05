@@ -168,4 +168,6 @@ https://github.com/user-attachments/assets/c0fd9856-cde2-482b-bb72-f3c5b7a5f4ba
 ## Live Demo
 A live demo of the application can be accessed at https://remi-frontend.fly.dev/.
 
+Demo account: `demo/12345678`
+
 *The website might be empty upon first load because of cold start, please be patient and reload the page.*
