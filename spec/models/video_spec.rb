@@ -39,6 +39,56 @@ RSpec.describe Video, type: :model do
 
 
   describe "callbacks" do
+    context "before_create callback" do
+      let(:user) { create(:user) }
+
+      context "when video info is successfully extracted" do
+        let(:video_info) do
+          {
+            title: "Rick Astley - Never Gonna Give You Up (Official Music Video)",
+            description: "The official video for “Never Gonna Give You Up” by Rick Astley.",
+            embed_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+          }
+        end
+
+        before do
+          allow_any_instance_of(ExtractVideoInfoService).to receive(:execute).and_return(video_info)
+        end
+
+        it "should assign title, description, and embed_url before creation" do
+          video = build(:video, user: user, url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+          expect(video.save).to be_truthy
+          expect(video.title).to eq(video_info[:title])
+          expect(video.description).to eq(video_info[:description])
+          expect(video.embed_url).to eq(video_info[:embed_url])
+        end
+      end
+
+      context "when video info extraction fails" do
+        before do
+          allow_any_instance_of(ExtractVideoInfoService).to receive(:execute).and_return(nil)
+        end
+
+        it "should add an error and abort creation" do
+          video = build(:video, user: user, url: "invalid_url")
+
+          expect(video.save).to be_falsy
+          expect(video.errors[:base]).to include("Video not found or unavailable.")
+        end
+      end
+
+      context "when url is blank" do
+        it "should not call the service and abort the creation" do
+          video = build(:video, user: user, url: "")
+
+          expect(ExtractVideoInfoService).not_to receive(:new)
+          expect(video.save).to be_falsy
+          expect(video.errors[:url]).to include("can't be blank")
+        end
+      end
+    end
+
     context 'after_create callback' do
       let(:user) { create(:user, username: "test_user") }
       let(:video) { build(:video, user: user, title: "Rick Astley - Never Gonna Give You Up (Official Music Video)") }

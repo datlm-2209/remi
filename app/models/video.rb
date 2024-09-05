@@ -10,7 +10,7 @@ class Video < ApplicationRecord
 
   private
   def broadcast_notification
-    BroadcastNotificationService.new(
+    result = BroadcastNotificationService.new(
       {
         type: "new_video",
         message: "New video has been shared",
@@ -18,7 +18,12 @@ class Video < ApplicationRecord
         title: title
       }
     ).execute
+
+    unless result
+      Rails.logger.error("Notification broadcast failed for video: #{id}")
+    end
   end
+
 
   def extract_video_info
     return if url.blank?

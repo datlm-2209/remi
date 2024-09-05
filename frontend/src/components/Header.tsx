@@ -40,7 +40,6 @@ function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
-
           ) : (
             <>
               <Button variant="outline" asChild>
