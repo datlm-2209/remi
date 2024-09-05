@@ -40,15 +40,24 @@ This website allows users to share YouTube videos with other users, providing a 
 - **Automation Testing**: Capybara + Selenium
 
 ## Installation
-
-### Docker
+### Prerequisites
 1. Clone the repository:
   ```bash
   git clone git@github.com:datlm-2209/remi.git
   cd remi
   ```
 
-2. Install:
+2. Create `config/master.key`
+  ```bash
+  touch config/master.key
+  vi config/master.key
+  # For demo purposes, using below master.key for development.
+  # In a real project, we should only share the key between dev in a secure channel and should not be pushed to github.
+  # 8cf056c983e9f873718ed8a42520e44b
+  ```
+### Docker
+
+1. Install:
   ```bash
   cd /frontend
   cp .env.example .env
@@ -56,40 +65,35 @@ This website allows users to share YouTube videos with other users, providing a 
   ```
 
 ### Without Docker (Not Recommended)
-1. Clone the repository:
-  ```bash
-  git clone git@github.com:datlm-2209/remi.git
-  cd remi
-  ```
-2. Install Ruby 3.3.4:
+1. Install Ruby 3.3.4:
 
   https://www.ruby-lang.org/en/documentation/installation/
 
-3. Install Ruby dependencies:
+2. Install Ruby dependencies:
   ```bash
   gem install bundler
   bundle install
   ```
-4. Configure the database:
+3. Configure the database:
   ```bash
   rails db:create
   rails db:migrate
   rails db:seed
   ```
-5. Install JavaScript dependencies:
+4. Install JavaScript dependencies:
   ```bash
   cd /frontend
   npm install
   ```
-6.  Create .env
+5.  Create .env
   ```bash
   cp .env.example .env
   ```
-7.  Start the React application:
+6.  Start the React application:
   ```bash
   npm run dev
   ```
-8.  Access the application in your browser at http://localhost:8080.
+7.  Access the application in your browser at http://localhost:8080.
 
 ## Database Setup
 ### With Docker
@@ -126,12 +130,14 @@ Docker compose will automatically create and migrate database upon start.
     npm run dev
   ```
 3. Access the application in your web browser at http://localhost:8080.
-### Test:
-  Run the test suite
+### Test
+  Run the test suite (Unit test and Automation test)
 
   ```bash
     rspec
   ```
+
+https://github.com/user-attachments/assets/c0fd9856-cde2-482b-bb72-f3c5b7a5f4ba
 
 ## Docker Deployment
 1. Install flyctl:
@@ -150,7 +156,7 @@ Docker compose will automatically create and migrate database upon start.
     npm run build
     fly deploy
   ```
-4. Access the Backend and Frontend applications via Fly.io deployment URLs.
+4. Access the Backend and Frontend applications via https://remi-frontend.fly.dev/ for FE and https://remi-app.fly.dev/ for BE.
 
 ## Usage
 - **Registration**: Sign up for a new account.
