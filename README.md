@@ -33,7 +33,7 @@ This website allows users to share YouTube videos with other users, providing a 
 
 ### Dockerization
 - **Docker**: For containerization
-- **Docker Compose**: For development setup
+- **Docker Compose**: Container orchestration for development
 
 ### Testing
 - **Unit Testing**: RSpec
@@ -115,8 +115,9 @@ Docker compose will automatically create and migrate database upon start.
 
 ## Running the Application
 ### With Docker
-1. Start the development server and application:
+1. Build and start the development server and application:
   ```bash
+    make build
     make up
   ```
 2. Access the application in your web browser at http://localhost:8080.
