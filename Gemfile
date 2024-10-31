@@ -14,7 +14,7 @@ gem "redis"
 gem "config"
 
 group :development, :test do
-  gem "rubocop", "~> 1.66", require: false
+  gem "rubocop", "~> 1.68", require: false
   gem "byebug", platforms: %i[mri mingw x64_mingw ]
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
